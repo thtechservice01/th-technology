@@ -1,7 +1,5 @@
 import os
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+import requests
 
 from fastapi import FastAPI, Form
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,9 +10,9 @@ from dotenv import load_dotenv
 load_dotenv()  # โหลดค่าจากไฟล์ .env
 
 # ---------- ตั้งค่าจาก Environment Variables ----------
-GMAIL_USER = os.getenv("GMAIL_USER")              # อีเมล Gmail ที่ใช้ส่ง เช่น thtech10530@gmail.com
-GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD")  # App Password 16 หลักจาก Google (ไม่ใช่รหัสผ่านปกติ)
-RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL", GMAIL_USER)  # อีเมลปลายทางที่จะรับข้อความ (ค่าเริ่มต้น = อีเมลเดียวกับที่ส่ง)
+RESEND_API_KEY = os.getenv("RESEND_API_KEY")          # API Key จาก resend.com
+RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL")          # อีเมลปลายทางที่จะรับข้อความ
+SENDER_EMAIL = os.getenv("SENDER_EMAIL", "onboarding@resend.dev")  # อีเมลผู้ส่ง (ใช้ค่า default ของ Resend ได้เลยถ้ายังไม่ได้ผูกโดเมนตัวเอง)
 
 app = FastAPI(title="TH-Technology Contact Backend")
 
@@ -30,15 +28,10 @@ app.add_middleware(
 # ให้เว็บเข้าถึงไฟล์รูป/โลโก้ใน static/ ผ่าน path /static/...
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-def send_email(name: str, email: str, subject: str, message: str) -> None:
-    """ส่งอีเมลแจ้งเตือนเข้า Gmail inbox"""
-    msg = MIMEMultipart()
-    msg["From"] = GMAIL_USER
-    msg["To"] = RECEIVER_EMAIL
-    msg["Subject"] = f"[เว็บไซต์] ข้อความใหม่: {subject}"
-    msg["Reply-To"] = email  # ตอบกลับอีเมลลูกค้าได้ทันทีจาก Gmail
 
-    body = f"""
+def send_email(name: str, email: str, subject: str, message: str) -> None:
+    """ส่งอีเมลแจ้งเตือนผ่าน Resend API (ใช้ HTTPS แทน SMTP เพราะ Render บล็อกพอร์ต SMTP)"""
+    body_text = f"""
 มีข้อความใหม่จากฟอร์มติดต่อบนเว็บไซต์ TH-TECHNOLOGY
 
 ชื่อผู้ติดต่อ / บริษัท: {name}
@@ -48,11 +41,23 @@ def send_email(name: str, email: str, subject: str, message: str) -> None:
 รายละเอียด:
 {message}
 """
-    msg.attach(MIMEText(body, "plain", "utf-8"))
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-        server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
-        server.sendmail(GMAIL_USER, RECEIVER_EMAIL, msg.as_string())
+    response = requests.post(
+        "https://api.resend.com/emails",
+        headers={
+            "Authorization": f"Bearer {RESEND_API_KEY}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "from": SENDER_EMAIL,
+            "to": [RECEIVER_EMAIL],
+            "reply_to": email,  # ตอบกลับอีเมลลูกค้าได้ทันทีจาก Gmail
+            "subject": f"[เว็บไซต์] ข้อความใหม่: {subject}",
+            "text": body_text,
+        },
+        timeout=10,
+    )
+    response.raise_for_status()  # ถ้า Resend ตอบ error จะ raise exception ให้ endpoint ด้านล่างจับได้
 
 
 @app.post("/submit-contact/")
