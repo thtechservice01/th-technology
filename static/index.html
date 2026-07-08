@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บริษัท ธ-เทคโนโลยี จำกัด </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- Reset & Core Typography --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        :root {
+            --bg-main: #f4f8fd;       /* ขาวอมฟ้าอ่อน พื้นหลังหลัก */
+            --bg-card: #ffffff;       /* ขาวสำหรับ Card */
+            --bg-soft: #e9f1fc;       /* ฟ้าอ่อนสำหรับกล่องรอง/ฟอร์ม */
+            --accent-blue: #0b63f6;   /* น้ำเงินสดใส หลัก */
+            --accent-cyan: #0a2c56;   /* น้ำเงินกรมท่าเข้ม สำหรับหัวข้อ/จุดเด่น */
+            --text-light: #16233a;    /* ตัวอักษรหลัก (กรมท่าเข้ม บนพื้นสว่าง) */
+            --text-muted: #5c6b81;
+            --border-color: #dbe6f5;
+            --on-dark: #ffffff;       /* ตัวอักษรขาว เฉพาะบล็อกพื้นเข้ม */
+            --on-dark-muted: rgba(255, 255, 255, 0.72);
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Global Layout Components --- */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+            margin-top: 8px;
+            border-radius: 2px;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 16px;
+            max-width: 600px;
+            margin-bottom: 50px;
+        }
+
+        /* --- Navigation Bar --- */
+        nav {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 20px rgba(10, 44, 86, 0.05);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-light);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-light);
+        }
+
+        .logo img{
+            height: 45px;
+            width: auto;
+            border-radius: 4px;
+            display: block;
+        }
+
+        .logo span {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            letter-spacing: 0.5px;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-light);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding-top: 180px;
+            padding-bottom: 120px;
+            background: radial-gradient(circle at 80% 20%, rgba(11, 99, 246, 0.10) 0%, transparent 50%),
+                        radial-gradient(circle at 10% 80%, rgba(10, 44, 86, 0.06) 0%, transparent 40%);
+        }
+
+        .hero-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+        }
+
+        .hero-content {
+            max-width: 560px;
+            flex: 1;
+        }
+
+        .hero-tag {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 25px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* --- Hero Image Gallery (slideshow) --- */
+        .hero-gallery-wrap {
+            position: relative;
+            width: 420px;
+            flex-shrink: 0;
+        }
+
+        .hero-gallery-wrap::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(11, 99, 246, 0.16) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .hero-gallery {
+            position: relative;
+            width: 100%;
+            height: 460px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 45px rgba(10, 44, 86, 0.18);
+            border: 1px solid var(--border-color);
+            z-index: 1;
+        }
+
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hero-gallery-caption {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 20px 24px 40px;
+            background: linear-gradient(180deg, transparent 0%, rgba(6, 24, 47, 0.75) 100%);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+        }
+
+        .hero-slide.active .hero-gallery-caption {
+            opacity: 1;
+        }
+
+        .hero-dots {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 2;
+        }
+
+        .hero-dots .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .hero-dots .dot.active {
+            width: 22px;
+            border-radius: 4px;
+            background: #ffffff;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-blue), #0043a8);
+            color: var(--text-light);
+            padding: 14px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(11, 99, 246, 0.25);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(11, 99, 246, 0.35);
+        }
+
+        /* --- About Us Section --- */
+        .about-grid {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .about-col-left {
+            width: 50%;
+        }
+
+        .about-col-right {
+            width: 50%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(10, 44, 86, 0.05);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* --- Services Section --- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .service-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(10, 44, 86, 0.05);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 8px 24px rgba(11, 99, 246, 0.12);
+            transform: translateY(-3px);
+        }
+
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            background-color: rgba(0, 82, 204, 0.1);
+            color: var(--accent-cyan);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 25px;
+        }
+
+        .service-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* --- Innovation/Tech Section --- */
+        .tech-box {
+            background: linear-gradient(135deg, #0a2c56 0%, #06182f 100%);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-blue);
+            padding: 40px;
+            border-radius: 0 12px 12px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(10, 44, 86, 0.15);
+        }
+
+        .tech-text {
+            width: 70%;
+        }
+
+        .tech-visual {
+            width: 30%;
+            text-align: center;
+        }
+
+        .tech-badge {
+            background-color: rgba(255, 255, 255, 0.12);
+            color: #7fb0ff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        /* --- Contact Section --- */
+        .contact-grid {
+            display: flex;
+            gap: 50px;
+        }
+
+        .contact-col-left {
+            width: 45%;
+        }
+
+        .contact-col-right {
+            width: 55%;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .contact-item i {
+            color: var(--accent-blue);
+            font-size: 20px;
+            margin-top: 5px;
+        }
+
+        .contact-item-text h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .contact-item-text p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Form Styling */
+        .contact-form {
+            background-color: var(--bg-card);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 20px rgba(10, 44, 86, 0.06);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            border-radius: 6px;
+            color: var(--text-light);
+            font-family: inherit;
+            font-size: 15px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .btn-submit {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 15px;
+            width: 100%;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--bg-soft);
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Mobile Responsiveness Rules */
+        @media (max-width: 768px) {
+            .about-grid, .services-grid, .contact-grid {
+                flex-direction: column;
+                gap: 30px;
+            }
+            .about-col-left, .about-col-right, .contact-col-left, .contact-col-right {
+                width: 100%;
+            }
+            .about-col-right {
+                grid-template-columns: 1fr 1fr;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .tech-box {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            .tech-text, .tech-visual {
+                width: 100%;
+            }
+            .nav-links {
+                display: none;
+            }
+            .hero h1 {
+                font-size: 34px;
+            }
+            .hero-flex {
+                flex-direction: column;
+            }
+            .hero-gallery-wrap {
+                width: 100%;
+                order: -1;
+            }
+            .hero-gallery {
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-container">
+            <a href="#" class="logo">
+    <img src="/static/logo3.png" alt="TH-TECHNOLOGY Logo">
+    <span>TH-TECHNOLOGY</span>
+</a>
+            <ul class="nav-links">
+                <li><a href="#hero">หน้าแรก</a></li>
+                <li><a href="#about">เกี่ยวกับเรา</a></li>
+                <li><a href="#services">งานวิศวกรรมระบบ</a></li>
+                <li><a href="#innovation">เทคโนโลยี</a></li>
+                <li><a href="#contact">ติดต่อเรา</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="hero" class="hero">
+        <div class="container hero-flex">
+            <div class="hero-content">
+                <span class="hero-tag">MEP Engineering Specialist</span>
+                <h1>One-Stop Service</h1>
+                <p>บริษัท ธ-เทคโนโลยี จำกัด มุ่งมั่นออกแบบ ติดตั้ง และดูแลรักษาระบบวิศวกรรมอาคารครบวงจร ทั้งระบบไฟฟ้า ปรับอากาศ และระบบสื่อสาร ด้วยความแม่นยำระดับมืออาชีพ</p>
+                <a href="#contact" class="btn-primary">ปรึกษาโครงการกับเรา</a>
+            </div>
+
+            <div class="hero-gallery-wrap">
+                <div class="hero-gallery" id="heroGallery">
+                    <div class="hero-slide active">
+                        <img src="/static/m1.jpg" alt="งานติดตั้งระบบไฟฟ้าและวิศวกรรมอาคาร">
+                        <div class="hero-gallery-caption">งานระบบไฟฟ้าและสื่อสาร</div>
+                    </div>
+                    <div class="hero-slide">
+                        <img src="/static/m2.jpg" alt="งานติดตั้งระบบปรับอากาศ HVAC">
+                        <div class="hero-gallery-caption">งานระบบปรับอากาศ (HVAC)</div>
+                    </div>
+                    <div class="hero-slide">
+                       <img src="/static/m3.jpg" alt="ทีมช่างเทคนิคหน้างาน">
+                        <div class="hero-gallery-caption">ทีมวิศวกรและช่างเทคนิคหน้างาน</div>
+                    </div>
+                    <div class="hero-dots">
+                        <span class="dot active" data-index="0"></span>
+                        <span class="dot" data-index="1"></span>
+                        <span class="dot" data-index="2"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container about-grid">
+            <div class="about-col-left">
+                <span style="color: var(--accent-cyan); font-weight:600; text-transform:uppercase; font-size:13px; letter-spacing:1px;">Corporate Overview</span>
+                <h2 class="section-title" style="margin-top:5px;">เกี่ยวกับ ธ-เทคโนโลยี</h2>
+                <p class="section-desc" style="margin-bottom:30px;">
+                    จดทะเบียนจัดตั้งขึ้นในปี พ.ศ. 2561 ดำเนินธุรกิจรับเหมาติดตั้งและบริหารจัดการงานวิศวกรรมระบบประกอบอาคาร (MEP) ทุกประเภท โดยทีมงานวิศวกรและช่างเทคนิคที่มีประสบการณ์ตรง
+                </p>
+                <p style="color: var(--text-muted); margin-bottom: 25px;">
+                    เราให้ความสำคัญสูงสุดกับคุณภาพการติดตั้งตามมาตรฐานหลักวิศวกรรม ความปลอดภัยในการปฏิบัติงาน และความตรงต่อเวลา เพื่อส่งมอบงานที่ดีที่สุดแก่กลุ่มลูกค้าอาคารพาณิชย์ โรงงานอุตสาหกรรม และโครงการพัฒนาอสังหาริมทรัพย์
+                </p>
+            </div>
+            
+            <div class="about-col-right">
+                <div class="stat-box">
+                    <span class="stat-number">2018</span>
+                    <span class="stat-label">ก่อตั้งและจดทะเบียน</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">มาตรฐานวิศวกรรม</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">4+</span>
+                    <span class="stat-label">ระบบงานหลักที่เชี่ยวชาญ</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">การสนับสนุนทางเทคนิค</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="container">
+            <span style="color: var(--accent-cyan); font-weight:600; text-transform:uppercase; font-size:13px; letter-spacing:1px;">Our Expertise</span>
+            <h2 class="section-title" style="margin-top:5px;">บริการงานวิศวกรรมระบบ</h2>
+            <p class="section-desc">เราให้บริการครอบคลุมการออกแบบ ติดตั้ง และซ่อมบำรุงรักษาเชิงป้องกัน (PM) งานระบบหลักภายในอาคาร</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3>ระบบไฟฟ้าและสื่อสาร (Electrical Systems)</h3>
+                    <p>ติดตั้งระบบไฟฟ้า-แรงต่ำ ตู้เมนสวิตช์บอร์ด (MDB) ระบบแสงสว่างประหยัดพลังงาน ระบบกราวด์และป้องกันฟ้าผ่า รวมถึงระบบแจ้งเหตุเพลิงไหม้ (Fire Alarm)</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-wind"></i>
+                    </div>
+                    <h3>ระบบปรับอากาศและระบายอากาศ</h3>
+                    <p>รับเหมาติดตั้งระบบปรับอากาศขนาดใหญ่ ทั้งระบบ VRV/VRF และเครื่องปรับอากาศแบบแยกส่วน (Split Type) รวมถึงงานเดินท่อลม ท่อส่งความเย็น และระบบระบายอากาศหมุนเวียน</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-network-wired"></i>
+                    </div>
+                    <h3>ระบบเครือข่ายและไอที (Network Infrastructure)</h3>
+                    <p>ออกแบบและติดตั้งระบบสายสัญญาณเครือข่าย (Structured Cabling System) สาย LAN สาย Fiber Optic ติดตั้งระบบกล้องวงจรปิด (CCTV) และระบบตู้เครือข่ายความเร็วสูงภายในองค์กร</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="innovation">
+        <div class="container">
+            <div class="tech-box">
+                <div class="tech-text">
+                    <span class="tech-badge">Digital Innovation</span>
+                    <h3 style="font-size: 24px; margin-bottom:15px; color: var(--on-dark);">ขับเคลื่อนการทำงานด้วยนวัตกรรมระบบภายใน</h3>
+                    <p style="color: var(--on-dark-muted); margin-bottom:15px;">
+                        บริษัท ธ-เทคโนโลยี จำกัด ยกระดับงานบริการหน้างาน (Fieldwork) ของทีมช่างเทคนิคด้วยเทคโนโลยีจัดเก็บข้อมูลรายงานและรูปภาพระบบดิจิทัล 
+                    </p>
+                    <p style="color: var(--on-dark-muted);">
+                        ทำให้การรายงานผลการเข้าไปดำเนินการซ่อมแซม จัดเก็บประวัติ หรือการล้างบำรุงรักษาเครื่องปรับอากาศและระบบไฟฟ้า สามารถบันทึก ตรวจสอบสถานะ และรายงานส่งออฟฟิศได้แบบ Real-time เพื่อความโปร่งใสและแม่นยำสูงสุด
+                    </p>
+                </div>
+                <div class="tech-visual">
+                    <i class="fa-solid fa-mobile-screen-button" style="font-size: 80px; color: #7fb0ff; margin-top: 20px;"></i>
+                    <div style="margin-top: 15px; font-weight: 500; font-size: 14px; color: var(--on-dark-muted);">Real-time Field Report</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" style="border-bottom: none;">
+        <div class="container contact-grid">
+            <div class="contact-col-left">
+                <span style="color: var(--accent-cyan); font-weight:600; text-transform:uppercase; font-size:13px; letter-spacing:1px;">Get In Touch</span>
+                <h2 class="section-title" style="margin-top:5px;">ติดต่อเรา</h2>
+                <p class="section-desc" style="margin-bottom: 40px;">สนใจสอบถามข้อมูลบริการ ประเมินราคาหน้างาน หรือร่วมพันธมิตรทางธุรกิจ สามารถติดต่อเราได้ตามช่องทางด้านล่าง</p>
+                
+                <div class="contact-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div class="contact-item-text">
+                        <h4>สำนักงานใหญ่</h4>
+                        <p>ซอยอยู่วิทยา 6 ถนนอยู่วิทยา แขวงกระทุ่มราย เขตหนองจอก กรุงเทพมหานคร</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <div class="contact-item-text">
+                        <h4>อีเมลติดต่อ</h4>
+                        <p>thtech10530@gmail.com</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <div class="contact-item-text">
+                        <h4>เบอร์ติดต่อ</h4>
+                        <p>ฝ่ายบัญชี</p>
+                        <p>094-237-1998</p>
+                        <p>ฝ่ายขาย</p>
+                        <p>089-658-8793</p>
+                        <p>ฝ่ายเทคนิค</p>
+                        <p>085-134-6902</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <i class="fa-solid fa-clock"></i>
+                    <div class="contact-item-text">
+                        <h4>เวลาทำการ</h4>
+                        <p>วันจันทร์ - วันเสาร์: 08:00 น. - 17:00 น.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-col-right">
+                <div class="contact-form">
+                    <h3 style="margin-bottom: 20px; font-size: 18px; font-weight:600;">ส่งข้อความถึงเรา</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">ชื่อผู้ติดต่อ / ชื่อบริษัท</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="ตัวอย่าง: สมชาย ใจดี" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">อีเมลติดต่อ</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="example@mail.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">บริการ</label>
+                            <select id="subject" name="subject" class="form-control" style="background-color: var(--bg-main);">
+                                <option>งานระบบไฟฟ้าและสื่อสาร</option>
+                                <option>งานระบบปรับอากาศ (HVAC)</option>
+                                <option>งานระบบไอทีและเครือข่าย</option>
+                                <option>อื่นๆ / ปรึกษาโครงการ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">รายละเอียดข้อความ</label>
+                            <textarea id="message" name="message" class="form-control" rows="4" placeholder="ระบุรายละเอียด" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit">ส่งข้อมูลติดต่อ</button>
+                    </form>
+                    <div id="formStatus" style="margin-top: 15px; display: none; font-weight: bold; text-align: center;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 บริษัท ธ-เทคโนโลยี จำกัด (TH-TECHNOLOGY CO., LTD.) </p>
+        </div>
+    </footer>
+
+    <script>
+        // แกลเลอรีรูปภาพหน้าแรก - หมุนวนอัตโนมัติ
+        (function () {
+            const slides = document.querySelectorAll('.hero-slide');
+            const dots = document.querySelectorAll('.hero-dots .dot');
+            let current = 0;
+            let timer;
+
+            function goTo(index) {
+                slides[current].classList.remove('active');
+                dots[current].classList.remove('active');
+                current = index;
+                slides[current].classList.add('active');
+                dots[current].classList.add('active');
+            }
+
+            function next() {
+                goTo((current + 1) % slides.length);
+            }
+
+            function startAutoplay() {
+                timer = setInterval(next, 4000);
+            }
+
+            if (slides.length > 0) {
+                dots.forEach(dot => {
+                    dot.addEventListener('click', () => {
+                        clearInterval(timer);
+                        goTo(parseInt(dot.dataset.index, 10));
+                        startAutoplay();
+                    });
+                });
+                startAutoplay();
+            }
+        })();
+
+        // ยิงข้อความจากหน้าเว็บเข้าสู่หลังบ้าน FastAPI
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const statusDiv = document.getElementById('formStatus');
+            statusDiv.style.display = 'block';
+            statusDiv.style.color = '#00dfa2';
+            statusDiv.innerText = 'กำลังส่งข้อมูล...';
+
+            const formData = new FormData();
+            formData.append('name', document.getElementById('name').value);
+            formData.append('email', document.getElementById('email').value);
+            formData.append('subject', document.getElementById('subject').value);
+            formData.append('message', document.getElementById('message').value);
+
+            try {
+                const response = await fetch('/submit-contact/', { method: 'POST', body: formData });
+                const result = await response.json();
+                if(result.status === 'success') {
+                    statusDiv.innerText = result.message;
+                    e.target.reset();
+                } else {
+                    statusDiv.style.color = '#ff4a4a';
+                    statusDiv.innerText = 'เกิดข้อผิดพลาด: ' + result.message;
+                }
+            } catch (error) {
+                statusDiv.style.color = '#ff4a4a';
+                statusDiv.innerText = 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์หลังบ้านได้';
+            }
+        });
+    </script>
+</body>
+</html>
