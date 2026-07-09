@@ -2,7 +2,8 @@ import os
 import resend
 from fastapi import FastAPI, Form
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -22,6 +23,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# เสิร์ฟไฟล์รูปภาพ/ไฟล์สแตติกในโฟลเดอร์ static/ (เช่น /static/logo3.png)
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+@app.get("/")
+async def serve_homepage():
+    """เสิร์ฟหน้าเว็บ index.html เวลาคนเข้ามาที่หน้าแรก"""
+    return FileResponse("static/index.html")
 
 
 def send_email(name: str, email: str, subject: str, message: str) -> None:
