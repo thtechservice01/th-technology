@@ -1,36 +1,31 @@
 import os
-import requests
-
+import resend
 from fastapi import FastAPI, Form
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, FileResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 
-load_dotenv()  # โหลดค่าจากไฟล์ .env
+load_dotenv()
 
-# ---------- ตั้งค่าจาก Environment Variables ----------
-RESEND_API_KEY = os.getenv("RESEND_API_KEY")          # API Key จาก resend.com
-RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL")          # อีเมลปลายทางที่จะรับข้อความ
-SENDER_EMAIL = os.getenv("SENDER_EMAIL", "onboarding@resend.dev")  # อีเมลผู้ส่ง (ใช้ค่า default ของ Resend ได้เลยถ้ายังไม่ได้ผูกโดเมนตัวเอง)
+RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL")
+SENDER_EMAIL = os.getenv("SENDER_EMAIL")
 
-app = FastAPI(title="TH-Technology Contact Backend")
+resend.api_key = RESEND_API_KEY
+
+app = FastAPI()
 
 # อนุญาตให้หน้าเว็บ (frontend) เรียก API นี้ได้
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ให้เว็บเข้าถึงไฟล์รูป/โลโก้ใน static/ ผ่าน path /static/...
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
 
 def send_email(name: str, email: str, subject: str, message: str) -> None:
-    """ส่งอีเมลแจ้งเตือนผ่าน Resend API (ใช้ HTTPS แทน SMTP เพราะ Render บล็อกพอร์ต SMTP)"""
+    """ส่งอีเมลแจ้งเตือนผ่าน Resend API"""
     body_text = f"""
 มีข้อความใหม่จากฟอร์มติดต่อบนเว็บไซต์ TH-TECHNOLOGY
 
@@ -41,23 +36,13 @@ def send_email(name: str, email: str, subject: str, message: str) -> None:
 รายละเอียด:
 {message}
 """
-
-    response = requests.post(
-        "https://api.resend.com/emails",
-        headers={
-            "Authorization": f"Bearer {RESEND_API_KEY}",
-            "Content-Type": "application/json",
-        },
-        json={
-            "from": SENDER_EMAIL,
-            "to": [RECEIVER_EMAIL],
-            "reply_to": email,  # ตอบกลับอีเมลลูกค้าได้ทันทีจาก Gmail
-            "subject": f"[เว็บไซต์] ข้อความใหม่: {subject}",
-            "text": body_text,
-        },
-        timeout=10,
-    )
-    response.raise_for_status()  # ถ้า Resend ตอบ error จะ raise exception ให้ endpoint ด้านล่างจับได้
+    resend.Emails.send({
+        "from": SENDER_EMAIL,
+        "to": RECEIVER_EMAIL,
+        "reply_to": email,
+        "subject": f"[เว็บไซต์] ข้อความใหม่: {subject}",
+        "text": body_text,
+    })
 
 
 @app.post("/submit-contact/")
@@ -69,21 +54,6 @@ async def submit_contact(
 ):
     try:
         send_email(name, email, subject, message)
-        return JSONResponse(
-            {"status": "success", "message": "ขอบคุณสำหรับข้อมูล ทีมงานจะติดต่อกลับโดยเร็วที่สุด"}
-        )
+        return JSONResponse({"status": "success", "message": "ส่งข้อความสำเร็จ ขอบคุณที่ติดต่อเรา"})
     except Exception as e:
-        return JSONResponse(
-            {"status": "error", "message": f"ไม่สามารถส่งข้อความได้: {str(e)}"},
-            status_code=500,
-        )
-
-
-@app.get("/")
-async def serve_index():
-    return FileResponse("static/index.html")
-
-
-@app.get("/health")
-async def health_check():
-    return {"status": "ok", "service": "TH-Technology contact backend"}
+        return JSONResponse({"status": "error", "message": str(e)}, status_code=500)
